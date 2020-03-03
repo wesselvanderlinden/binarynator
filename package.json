@@ -1,7 +1,7 @@
 {
   "name": "binarynator",
   "description": "Convert JSON data to binary and back",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "dist/cjs/index.js",
   "module": "dist/es/index.js",
   "author": "Wessel van der Linden",
