@@ -5,6 +5,5 @@ Just a simple "transcoder" which converts JSON structures, defined by a schema, 
 This is still very WIP
 
 ## TODO
-* float32 doesn't work
-* add other types as varint, float64 etc, bool, etc.
 * include a version number of the schema in the binary
+* InferType on arrays and oneOf doesn't work yet

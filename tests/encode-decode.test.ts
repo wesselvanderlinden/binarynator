@@ -1,6 +1,5 @@
-import { array, int32, object, string } from '../src/schema';
+import { array, int32, object, string } from '../src/schema/index';
 import { tableTestSchemaType } from './test-utils';
-
 
 tableTestSchemaType({
   test: {

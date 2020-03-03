@@ -1,8 +1,9 @@
 import { array } from '../../src/schema/array';
-import { mockType, tableTestSchemaType } from '../test-utils';
+import { string } from '../../src/schema/string';
+import { tableTestSchemaType } from '../test-utils';
 
 
 tableTestSchemaType({
-  'empty array': { type: array(mockType()), value: [] },
-  'array of types': { type: array(mockType()), value: ['1', '2', '3'] },
+  'empty array': { type: array(string()), value: [] },
+  'array of types': { type: array(string()), value: ['1', '2', '3'] },
 });

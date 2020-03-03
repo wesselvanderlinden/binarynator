@@ -7,5 +7,5 @@ export function encode(schema: SchemaType, obj: any): Buffer {
   schema.write(obj, buffer);
   buffer.flip();
 
-  return buffer.toBuffer();
+  return Buffer.from(buffer.toBuffer());
 }
