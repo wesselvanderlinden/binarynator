@@ -40,3 +40,4 @@ const decoded = decode(schema, encoded);
 ## TODO
 * include a version number of the schema in the binary
 * InferType on arrays and oneOf doesn't work yet
+* Improve error handling & messaging
