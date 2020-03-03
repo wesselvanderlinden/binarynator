@@ -1,7 +1,7 @@
 import ByteBuffer from 'bytebuffer';
-import SchemaType from './schema-type/schema-type';
+import SchemaType from './schema/schema-type';
 
-export function encode(schema: SchemaType<any>, obj: any): Buffer {
+export function encode(schema: SchemaType, obj: any): Buffer {
   const buffer = new ByteBuffer();
 
   schema.write(obj, buffer);

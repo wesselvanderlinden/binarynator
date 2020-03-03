@@ -1,8 +1,10 @@
 import ByteBuffer from 'bytebuffer';
-import SchemaType from './schema-type';
+import { decode } from '../src/decode';
+import { encode } from '../src/encode';
+import SchemaType from '../src/schema/schema-type';
 
 interface TestCase {
-  type: SchemaType<any>,
+  type: SchemaType,
   value: any;
 }
 
@@ -14,28 +16,12 @@ export function tableTestSchemaType(tests: Record<string, TestCase>) {
   });
 }
 
-function testSchemaType(type: SchemaType<any>, value: any) {
-  const encoded = writeSchemaType(type, value);
-  const decoded = readSchemaType(type, encoded);
+function testSchemaType(type: SchemaType, value: any) {
+  const encoded = encode(type, value);
+  const decoded = decode(type, encoded);
 
   expect(decoded).toEqual(value);
 }
-
-function writeSchemaType(type: SchemaType<any>, value: any): string {
-  const buffer = new ByteBuffer();
-
-  type.write(value, buffer);
-  buffer.flip();
-
-  return buffer.toBuffer().toString();
-}
-
-function readSchemaType(type: SchemaType<any>, raw: string): any {
-  const readBuffer = ByteBuffer.fromBinary(raw);
-
-  return type.read(readBuffer);
-}
-
 
 class MockSchemaType extends SchemaType<string> {
   protected writeValue(value: string, buffer: ByteBuffer): void {

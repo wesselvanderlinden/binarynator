@@ -1,16 +1,10 @@
-import { decode } from './decode';
-import { encode } from './encode';
-import { array, int32, object, string } from './schema-type';
-import SchemaType from './schema-type/schema-type';
+import { array, int32, object, string } from '../src/schema';
+import { tableTestSchemaType } from './test-utils';
 
-interface TestCase {
-  schema: SchemaType<any>;
-  input: any;
-}
 
-const tests: Record<string, TestCase> = {
+tableTestSchemaType({
   test: {
-    schema: object({
+    type: object({
       word: string(),
       number: int32(),
       optional_word: string().optional(),
@@ -21,7 +15,7 @@ const tests: Record<string, TestCase> = {
       array: array(int32()),
     }),
 
-    input: {
+    value: {
       word: 'some word',
       number: 1337,
       optional_word: 'HENK',
@@ -32,29 +26,18 @@ const tests: Record<string, TestCase> = {
   },
 
   'nested array with objects': {
-    schema: object({
+    type: object({
       array: array(object({
         nested: object({
           child: array(int32()),
         }),
       })),
     }),
-    input: {
+    value: {
       array: [
         { nested: { child: [1, 2, 3] } },
         { nested: { child: [4, 5, 6] } },
       ],
     },
   },
-};
-
-Object.keys(tests).forEach((name) => {
-  const { schema, input } = tests[name];
-
-  test(name, () => {
-    const encoded = encode(schema, input);
-    const decoded = decode(schema, encoded);
-
-    expect(decoded).toEqual(input);
-  });
 });

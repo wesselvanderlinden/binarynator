@@ -33,4 +33,6 @@ export const uint16 = () => new BaseNumberType(proto.writeInt16, proto.readInt16
 export const int32 = () => new BaseNumberType(proto.writeInt32, proto.readInt32);
 export const uint32 = () => new BaseNumberType(proto.writeInt32, proto.readInt32);
 
+export const varint32 = () => new BaseNumberType(proto.writeVarint32, proto.readVarint32);
+
 export const float32 = () => new BaseNumberType(proto.writeFloat32, proto.readFloat32);

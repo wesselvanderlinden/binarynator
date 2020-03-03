@@ -1,8 +1,8 @@
 import ByteBuffer from 'bytebuffer';
 import SchemaType from './schema-type';
 
-class OneOfType extends SchemaType<any> {
-  constructor(private types: SchemaType<any>[]) {
+class OneOfType extends SchemaType {
+  constructor(private types: SchemaType[]) {
     super();
 
     if (this.types.length >= 128) {
@@ -39,4 +39,4 @@ class OneOfType extends SchemaType<any> {
   }
 }
 
-export const oneOf = (types: SchemaType<any>[]) => new OneOfType(types);
+export const oneOf = (types: SchemaType[]) => new OneOfType(types);

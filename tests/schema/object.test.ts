@@ -1,5 +1,5 @@
-import { object } from './object';
-import { mockType, tableTestSchemaType } from './test-utils';
+import { object } from '../../src/schema/object';
+import { mockType, tableTestSchemaType } from '../test-utils';
 
 
 tableTestSchemaType({

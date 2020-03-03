@@ -1,5 +1,5 @@
-import { string } from './string';
-import { tableTestSchemaType } from './test-utils';
+import { string } from '../../src/schema/string';
+import { tableTestSchemaType } from '../test-utils';
 
 tableTestSchemaType({
   'string with value': { type: string(), value: 'test' },

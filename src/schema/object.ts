@@ -1,8 +1,7 @@
-import { Schema } from '../schema';
 import SchemaType from './schema-type';
 
 class ObjectType extends SchemaType<Record<string, any>> {
-  constructor(private readonly schema: Schema) {
+  constructor(private readonly schema: Record<string, SchemaType>) {
     super();
   }
 
@@ -32,4 +31,4 @@ class ObjectType extends SchemaType<Record<string, any>> {
   }
 }
 
-export const object = (schema: Schema) => new ObjectType(schema);
+export const object = (schema: Record<string, SchemaType>) => new ObjectType(schema);

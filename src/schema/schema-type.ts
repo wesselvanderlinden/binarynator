@@ -4,7 +4,7 @@ enum StateByte {
   DEFINED = 2,
 }
 
-export default abstract class SchemaType<T> {
+export default abstract class SchemaType<T = any> {
   private isOptional = false;
 
   private isNullable = false;
