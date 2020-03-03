@@ -1,11 +1,16 @@
 {
   "name": "binarynator",
+  "description": "Convert JSON data to binary and back",
   "version": "0.0.0",
-  "main": "index.js",
+  "main": "dist/cjs/index.js",
+  "module": "dist/es/index.js",
   "author": "Wessel van der Linden",
   "license": "MIT",
+  "files": [
+    "dist/"
+  ],
   "scripts": {
-    "build": "rimraf dist && yarn tsc",
+    "build": "rimraf dist && yarn rollup -c",
     "test": "jest --colors",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx ./src/"
   },
@@ -20,6 +25,9 @@
     "eslint-plugin-import": "^2.20.1",
     "jest": "^25.1.0",
     "rimraf": "^3.0.2",
+    "rollup": "^1.32.0",
+    "rollup-plugin-terser": "^5.2.0",
+    "rollup-plugin-typescript2": "^0.26.0",
     "ts-jest": "^25.2.1",
     "ts-node": "^8.6.2",
     "typescript": "^3.8.3"
