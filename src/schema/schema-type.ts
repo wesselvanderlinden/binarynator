@@ -25,26 +25,38 @@ export default abstract class SchemaType<T = any> {
 
   protected abstract readValue(buffer: ByteBuffer): T;
 
-  public abstract test(value: any): boolean;
+  protected abstract validateValue(value: any): void;
 
-  public write(value: T, buffer: ByteBuffer): void {
-    let state: StateByte;
+  public test(value: any): boolean {
+    try {
+      this.validate(value);
 
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  public validate(value: T): void {
     if (typeof value === 'undefined') {
       if (!this.isOptional) {
         throw new Error('Value is undefined but not optional');
       }
 
-      state = StateByte.UNDEFINED;
-    } else if (value === null) {
+      return;
+    } if (value === null) {
       if (!this.isNullable) {
         throw new Error('Value is null but not nullable');
       }
 
-      state = StateByte.NULL;
-    } else {
-      state = StateByte.DEFINED;
+      return;
     }
+
+    this.validateValue(value);
+  }
+
+  public write(value: T, buffer: ByteBuffer): void {
+    const state = this.determineStateByte(value);
 
     if (this.hasStateByte()) {
       buffer.writeByte(state);
@@ -54,7 +66,6 @@ export default abstract class SchemaType<T = any> {
       return;
     }
 
-    this.validate(value);
     this.writeValue(value, buffer);
   }
 
@@ -71,20 +82,22 @@ export default abstract class SchemaType<T = any> {
       }
     }
 
-    const value = this.readValue(buffer);
+    return this.readValue(buffer);
+  }
 
-    this.validate(value);
+  private determineStateByte(value: T): StateByte {
+    if (typeof value === 'undefined') {
+      return StateByte.UNDEFINED;
+    }
 
-    return value;
+    if (value === null) {
+      return StateByte.NULL;
+    }
+
+    return StateByte.DEFINED;
   }
 
   private hasStateByte(): boolean {
     return this.isOptional || this.isNullable;
-  }
-
-  private validate(value: T): void {
-    if (!this.test(value)) {
-      throw new Error(`Invalid value: ${value}`);
-    }
   }
 }

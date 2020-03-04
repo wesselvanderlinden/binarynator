@@ -1,3 +1,4 @@
+import TypeValidationError from '../error/TypeValidationError';
 import SchemaType from './schema-type';
 
 export type ObjectSchema<T extends object | null | undefined> = {
@@ -10,8 +11,7 @@ class ObjectType<T extends object | null | undefined = object> extends SchemaTyp
   }
 
   protected writeValue(value: T, buffer: ByteBuffer): void {
-    Object.keys(this.schema).forEach((key) => {
-      const type = (this.schema as any)[key];
+    this.traverseProperties((key, type) => {
       const propertyValue = (value as any)[key];
 
       type.write(propertyValue, buffer);
@@ -19,19 +19,47 @@ class ObjectType<T extends object | null | undefined = object> extends SchemaTyp
   }
 
   protected readValue(buffer: ByteBuffer): T {
-    const result: Record<string, any> = {};
+    const result: Partial<Record<keyof T, any>> = {};
 
-    Object.keys(this.schema).forEach((key) => {
-      const type = (this.schema as any)[key];
-      result[key] = type.read(buffer);
+    this.traverseProperties((key, type) => {
+      const value = type.read(buffer);
+
+      if (typeof value === 'undefined') {
+        return;
+      }
+
+      result[key] = value;
     });
 
     return result as T;
   }
 
-  public test(value: any): boolean {
-    // todo: test properties?
-    return typeof value === 'object';
+  protected validateValue(value: any): void {
+    if (typeof value !== 'object') {
+      throw new TypeValidationError('Value is not an object');
+    }
+
+    this.traverseProperties((key, type) => {
+      try {
+        type.validate(value[key]);
+      } catch (err) {
+        if (err instanceof TypeValidationError) {
+          throw TypeValidationError.from(err, [String(key)]);
+        }
+
+        throw err;
+      }
+    });
+  }
+
+  private traverseProperties(callback: (key: keyof T, type: SchemaType) => void): void {
+    const keys = Object.keys(this.schema) as Array<keyof T>;
+
+    keys.forEach((key) => {
+      const type = this.schema[key];
+
+      callback(key, type);
+    });
   }
 }
 

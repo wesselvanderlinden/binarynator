@@ -1,4 +1,5 @@
 import ByteBuffer from 'bytebuffer';
+import TypeValidationError from '../error/TypeValidationError';
 import SchemaType from './schema-type';
 
 class BaseNumberType extends SchemaType<number> {
@@ -17,8 +18,10 @@ class BaseNumberType extends SchemaType<number> {
     return this.readCallback.call(buffer);
   }
 
-  public test(value: any): boolean {
-    return typeof value === 'number';
+  protected validateValue(value: any): void {
+    if (typeof value !== 'number') {
+      throw new TypeValidationError('Value is not a number');
+    }
   }
 }
 

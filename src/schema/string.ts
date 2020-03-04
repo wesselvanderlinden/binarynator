@@ -1,4 +1,5 @@
 import ByteBuffer from 'bytebuffer';
+import TypeValidationError from '../error/TypeValidationError';
 import SchemaType from './schema-type';
 
 class StringType extends SchemaType<string> {
@@ -10,8 +11,10 @@ class StringType extends SchemaType<string> {
     return buffer.readVString();
   }
 
-  public test(value: any): boolean {
-    return typeof value === 'string';
+  protected validateValue(value: any): void {
+    if (typeof value !== 'string') {
+      throw new TypeValidationError('Value is not a string');
+    }
   }
 }
 

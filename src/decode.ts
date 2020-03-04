@@ -7,6 +7,9 @@ export function decode<T extends SchemaType>(
   encoded: ByteBuffer | Buffer | ArrayBuffer | Uint8Array | string,
 ): InferType<T> {
   const buffer = ByteBuffer.wrap(encoded);
+  const value = schema.read(buffer);
 
-  return schema.read(buffer);
+  schema.validate(value);
+
+  return value;
 }

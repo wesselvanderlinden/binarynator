@@ -1,4 +1,5 @@
 import ByteBuffer from 'bytebuffer';
+import TypeValidationError from '../error/TypeValidationError';
 import SchemaType from './schema-type';
 
 class BooleanType extends SchemaType<boolean> {
@@ -10,8 +11,10 @@ class BooleanType extends SchemaType<boolean> {
     return Boolean(buffer.readByte());
   }
 
-  public test(value: any): boolean {
-    return typeof value === 'boolean';
+  protected validateValue(value: any): void {
+    if (typeof value !== 'boolean') {
+      throw new TypeValidationError('Value is not a boolean');
+    }
   }
 }
 

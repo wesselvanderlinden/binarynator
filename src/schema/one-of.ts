@@ -1,4 +1,5 @@
 import ByteBuffer from 'bytebuffer';
+import TypeValidationError from '../error/TypeValidationError';
 import SchemaType from './schema-type';
 
 class OneOfType extends SchemaType {
@@ -34,8 +35,14 @@ class OneOfType extends SchemaType {
     return type.read(buffer);
   }
 
-  public test(value: any): boolean {
-    return Boolean(this.types.find((type) => type.test(value)));
+  protected validateValue(value: any): void {
+    const found = this.types.find((type) => type.test(value));
+
+    if (!found) {
+      throw new TypeValidationError('Value is not one of ...'); // todo: list sub types?
+    }
+
+    found.validate(value);
   }
 }
 
