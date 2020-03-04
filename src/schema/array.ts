@@ -6,13 +6,13 @@ class ArrayType<T> extends SchemaType<T[]> {
     super();
   }
 
-  protected writeValue(value: any[], buffer: ByteBuffer): void {
+  protected writeValue(value: T[], buffer: ByteBuffer): void {
     buffer.writeVarint32(value.length);
 
     value.forEach((item) => this.itemType.write(item, buffer));
   }
 
-  protected readValue(buffer: ByteBuffer): any[] {
+  protected readValue(buffer: ByteBuffer): T[] {
     const length = buffer.readVarint32();
     const items: any = [];
 

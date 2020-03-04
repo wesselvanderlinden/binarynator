@@ -6,8 +6,8 @@
   "module": "dist/es/index.js",
   "author": "Wessel van der Linden",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/wesselvanderlinden/binarynator.git"
+    "type": "git",
+    "url": "https://github.com/wesselvanderlinden/binarynator.git"
   },
   "license": "MIT",
   "files": [
