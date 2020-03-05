@@ -2,9 +2,10 @@
 
 Just a simple "transcoder" which converts JSON structures, defined by a schema, to binary and back.
 
-This is still very WIP
+## Why?
+Why not?
 
-## example
+## Example
 
 ```javascript
 import { encode, decode, object, string, int32, array } from 'binarynator';
