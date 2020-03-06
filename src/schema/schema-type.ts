@@ -1,3 +1,5 @@
+import TypeValidationError from '../error/TypeValidationError';
+
 enum StateByte {
   UNDEFINED = 0,
   NULL = 1,
@@ -40,13 +42,13 @@ export default abstract class SchemaType<T = any> {
   public validate(value: T): void {
     if (typeof value === 'undefined') {
       if (!this.isOptional) {
-        throw new Error('Value is undefined but not optional');
+        throw new TypeValidationError('Value is undefined but not optional');
       }
 
       return;
     } if (value === null) {
       if (!this.isNullable) {
-        throw new Error('Value is null but not nullable');
+        throw new TypeValidationError('Value is null but not nullable');
       }
 
       return;

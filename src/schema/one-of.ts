@@ -2,7 +2,7 @@ import ByteBuffer from 'bytebuffer';
 import TypeValidationError from '../error/TypeValidationError';
 import SchemaType from './schema-type';
 
-class OneOfType extends SchemaType {
+export class OneOfType extends SchemaType {
   constructor(private types: SchemaType[]) {
     super();
 

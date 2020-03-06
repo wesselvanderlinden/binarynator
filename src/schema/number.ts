@@ -2,7 +2,7 @@ import ByteBuffer from 'bytebuffer';
 import TypeValidationError from '../error/TypeValidationError';
 import SchemaType from './schema-type';
 
-class BaseNumberType extends SchemaType<number> {
+export class BaseNumberType extends SchemaType<number> {
   constructor(
     private writeCallback: (value: number) => void,
     private readCallback: () => number,

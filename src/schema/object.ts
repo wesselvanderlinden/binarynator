@@ -1,11 +1,11 @@
 import TypeValidationError from '../error/TypeValidationError';
 import SchemaType from './schema-type';
 
-export type ObjectSchema<T extends object | null | undefined> = {
+type ObjectSchema<T extends object | null | undefined> = {
   [field in keyof T]: SchemaType<T[field]>;
 };
 
-class ObjectType<T extends object | null | undefined = object> extends SchemaType<T> {
+export class ObjectType<T extends object | null | undefined = object> extends SchemaType<T> {
   constructor(private readonly schema: ObjectSchema<T>) {
     super();
   }

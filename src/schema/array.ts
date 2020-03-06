@@ -2,7 +2,7 @@ import ByteBuffer from 'bytebuffer';
 import TypeValidationError from '../error/TypeValidationError';
 import SchemaType from './schema-type';
 
-class ArrayType<T> extends SchemaType<T[]> {
+export class ArrayType<T> extends SchemaType<T[]> {
   constructor(private itemType: SchemaType<T>) {
     super();
   }
@@ -26,7 +26,7 @@ class ArrayType<T> extends SchemaType<T[]> {
 
   protected validateValue(value: any): void {
     if (!Array.isArray(value)) {
-      throw new Error('Value is not an array');
+      throw new TypeValidationError('Value is not an array');
     }
 
     value.forEach((item, i) => {
